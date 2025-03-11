@@ -12,3 +12,7 @@ def test_place_mines():
     game.place_mines()
     # TODO : Add assertions
     assert len(game.mines) == 2
+
+
+def test_fail():
+    assert False
