@@ -40,15 +40,34 @@ class Minesweeper:
         Any adjacent cells with no mines are also revealed.
         Returns "Game Over" if a mine is revealed, "Continue" otherwise.
         """
-        pass
+        if (row, col) in self.mines:
+            return "Game Over"
+
+        self._reveal_recursive(row, col)
+        return "Continue"
+
+    def _reveal_recursive(self, row: int, col: int):
+        """Helper function to reveal cells recursively."""
+        if (row, col) in self.revealed or not (
+            0 <= row < self.rows and 0 <= col < self.cols
+        ):
+            return
+
+        self.revealed.add((row, col))
+        if self.board[row][col] == "":
+            self.board[row][col] = "0"
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if (i, j) != (row, col):
+                        self._reveal_recursive(i, j)
 
     def get_board(self) -> list:
         """Return the current state of the board."""
-        pass
+        return self.board
 
     def is_winner(self) -> bool:
         """Check if the game has been won."""
-        pass
+        return len(self.revealed) == self.rows * self.cols - self.num_mines
 
     def restart(self) -> None:
         """Restart the game with the same parameters."""
